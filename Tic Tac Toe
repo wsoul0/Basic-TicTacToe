@@ -1,0 +1,109 @@
+def draw_board(board):
+   print("~~~~~~~~~~~~~~~~~~")
+   print(f"|| {board[0]} || {board[1]} || {board[2]} ||")
+   print("~~~~~~~~~~~~~~~~~~")
+   print(f"|| {board[3]} || {board[4]} || {board[5]} ||")
+   print("~~~~~~~~~~~~~~~~~~")
+   print(f"|| {board[6]} || {board[7]} || {board[8]} ||")
+   print("~~~~~~~~~~~~~~~~~~")
+
+
+def get_player_input(plr, current_pieces):
+   while True:
+       try:
+           move = int(input(f"{plr}: Where would you like to place your piece (1 - 9): "))
+       except ValueError:
+           print("That can't be a move please enter a number 1-9)")
+           continue
+
+
+       if 1 <= move <= 9:
+           if current_pieces[move - 1] == "_":
+               return move - 1
+           else:
+               print("That's taken buddy")
+       else:
+           print("That can't be a move bud")
+
+
+def place_char_on_board(plr, move, current_pieces):
+   current_pieces[move] = plr
+
+
+def is_winner(current_pieces, player_char):
+   # Horizontal wins
+   if (current_pieces[0] == player_char and current_pieces[1] == player_char and current_pieces[2] == player_char):
+       return True
+   elif (current_pieces[3] == player_char and current_pieces[4] == player_char and current_pieces[5] == player_char):
+       return True
+   elif (current_pieces[6] == player_char and current_pieces[7] == player_char and current_pieces[8] == player_char):
+       return True
+   # Vertical wins
+   elif (current_pieces[0] == player_char and current_pieces[3] == player_char and current_pieces[6] == player_char):
+       return True
+   elif (current_pieces[1] == player_char and current_pieces[4] == player_char and current_pieces[7] == player_char):
+       return True
+   elif (current_pieces[2] == player_char and current_pieces[5] == player_char and current_pieces[8] == player_char):
+       return True
+   # Diagonal wins
+   elif (current_pieces[0] == player_char and current_pieces[4] == player_char and current_pieces[8] == player_char):
+       return True
+   elif (current_pieces[2] == player_char and current_pieces[4] == player_char and current_pieces[6] == player_char):
+       return True
+
+
+   return False
+
+
+#how i defined the players to play, it was a little confusing to figure out how I could set each player to x / o but it was pretty simple
+player_1 = "X"
+player_2 = "O"
+
+
+c_list = ["_"] * 9
+n_list = [str(i) for i in range(1, 10)]
+
+
+print("Tic-Tac-Toe")
+draw_board(n_list)
+
+
+print("Tic-Tac-Toe")
+draw_board(c_list)
+#while loop to get the player move and put it on th board then print out the boards and check if there is a winner, if not repeat the same process
+while True:
+   move_index = get_player_input(player_1, c_list)
+   place_char_on_board(player_1, move_index, c_list)
+
+
+   print("Tic-Tac-Toe")
+   draw_board(n_list)
+   print("Tic-Tac-Toe")
+   draw_board(c_list)
+
+
+   if is_winner(c_list, player_1):
+       print(f"Congratulations! Player {player_1} wins!")
+       break
+   if "_" not in c_list:
+       print("The game is a tie!")
+       break
+
+
+   move_index = get_player_input(player_2, c_list)
+   place_char_on_board(player_2, move_index, c_list)
+
+
+   print("Tic-Tac-Toe")
+   draw_board(n_list)
+   print("Tic-Tac-Toe")
+   draw_board(c_list)
+
+
+   if is_winner(c_list, player_2):
+       print(f"Congratulations! Player {player_2} wins!")
+       break
+   if "_" not in c_list:
+       print("The game is a tie!")
+       break
+
